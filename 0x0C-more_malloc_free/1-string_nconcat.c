@@ -1,43 +1,55 @@
+/*
+ * 0x0C. C - More malloc, free
+ * task 1
+ */
 #include "main.h"
+#include <stdlib.h>
+#include <string.h>
 /**
- * string_nconcat - a function that concatenates two strings.
- * @s1: Strng one
- * @s2: string two
- * @n: number of bytes
- * Return:  pointer shall point to a newly allocated space in memory,
- * which contains s1, followed by the first n bytes of s2, and null terminated
+ * string_nconcat - concatenates two strings.
+ * @s1: lef size array refrance
+ * @s2: right size array refrance
+ * @n: size of right side
+ * Return: array refrance concatenates two strings.
  */
 char *string_nconcat(char *s1, char *s2, unsigned int n)
 {
-	char *nstr, *empt;
-	unsigned int i, len, j;
-	unsigned int size;
-
-	len = 0;
-	empt = "";
+	int i, j;
+	char *concat;
+	/*if NULL is passed, treat it as an empty string*/
+	if (s1 == NULL && s2 == NULL)
+	{
+		concat =  malloc(1);
+		if (concat == NULL)
+			return (NULL);
+		concat[0] = '\0';
+		return (concat);
+	}
+	if (s2 != NULL)
+	{
+		if (strlen(s2) < n)
+			n = strlen(s2);
+	}
+	/*allocated space in memory*/
 	if (s1 == NULL)
-		s1 = empt;
-	if (s2 == NULL)
-		s2 = empt;
-	while (s1[len] != '\0')
-		len++;
-	size = (len + n) * sizeof(*nstr);
-	nstr = malloc(size + 1);
-	if (nstr == NULL)
+		concat =  malloc((n * sizeof(char)) + 1);
+	else if (s2 == NULL)
+		concat =  malloc(strlen(s1) * sizeof(char) + 1);
+	else
+		concat =  malloc((strlen(s1) + n) * sizeof(char) + 1);
+
+	if (concat == NULL)
 		return (NULL);
 	i = 0;
-	while (i < size && s1[i] != '\0')
-	{
-		nstr[i] = s1[i];
-		i++;
-	}
-	j = 0;
-	while (i < size && s2[j] != '\0')
-	{
-		nstr[i] = s2[j];
-		i++;
-		j++;
-	}
-	nstr[i] = '\0';
-	return (nstr);
+	/*fill left side*/
+	if (s1 != NULL)
+		for (i = 0; s1[i] != '\0'; i++)
+			concat[i] = s1[i];
+	/*fill right side*/
+	if (s2 != NULL)
+		for (j = 0; j < (int)n ; j++, i++)
+			concat[i] = s2[j];
+	/*end of string*/
+	concat[i] = '\0';
+	return (concat);
 }

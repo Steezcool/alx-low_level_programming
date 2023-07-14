@@ -1,30 +1,23 @@
+/*
+ * 0x0C. C - More malloc, free
+ * task 2
+ */
 #include "main.h"
+#include <stdlib.h>
 /**
- * _calloc -  Allocates memory for an array of a certain number
- *           of elements each of an inputted byte size.
- * @nmemb: The number of elements.
- * @size: The byte size of each array element.
- * Return: If nmemb = 0, size = 0, or the function fails - NULL.
- *         Otherwise - a pointer to the allocated memory.
+ * _calloc - allocates memory using calloc.
+ * @nmemb: This is the number of elements
+ * @size: This is the size of elements.
+ * Return: array refrance or NULL
  */
 void *_calloc(unsigned int nmemb, unsigned int size)
 {
-	void *mem;
-	char *filler;
-	unsigned int index;
+	void *p;
 
 	if (nmemb == 0 || size == 0)
 		return (NULL);
-
-	mem = malloc(size * nmemb);
-
-	if (mem == NULL)
+	p = calloc(nmemb, size);
+	if (p == NULL)
 		return (NULL);
-
-	filler = mem;
-
-	for (index = 0; index < (size * nmemb); index++)
-		filler[index] = '\0';
-
-	return (mem);
+	return (p);
 }
